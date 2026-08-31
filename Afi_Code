@@ -1,0 +1,27 @@
+def book_appointment():
+
+    # Choose department
+    while True:
+        department = input("Enter department (GP or Specialist): ")
+
+        if department == "GP" or department == "Specialist":
+            break
+        else:
+            print("Invalid department. Please try again.")
+
+    # Enter appointment date
+    while True:
+        date = input("Enter appointment date (DD/MM/YYYY): ")
+
+        if date == "28/08/2026" or date == "29/08/2026" or date == "30/08/2026" or date == "31/08/2026":
+            break
+        else:
+            print("Invalid date. Please choose a date within 7 days.")
+
+    # Confirmation
+    print("Appointment booked successfully!")
+    print("Department:", department)
+    print("Date:", date)
+
+
+book_appointment()
