@@ -1,0 +1,38 @@
+from datetime import datetime, timedelta
+ 
+ 
+def book_appointment():
+    departments = ["GP", "Specialist"]
+ 
+    while True:
+        department = input("Choose department (GP or Specialist): ").strip()
+ 
+        if department not in departments:
+            print("Error: Invalid department. Please try again.")
+            continue
+ 
+        while True:
+            date_input = input("Enter appointment date (DD/MM/YYYY): ").strip()
+ 
+            try:
+                appointment_date = datetime.strptime(date_input, "%d/%m/%Y").date()
+            except ValueError:
+                print("Error: Invalid date format. Please use DD/MM/YYYY.")
+                continue
+ 
+            today = datetime.today().date()
+            latest_date = today + timedelta(days=7)
+ 
+            if appointment_date < today:
+                print("Error: Date cannot be in the past. Please try again.")
+            elif appointment_date > latest_date:
+                print("Error: Appointment must be within 7 days. Please try again.")
+            else:
+                print("Appointment booked successfully!")
+                print("Department:", department)
+                print("Appointment date:", date_input)
+                return
+ 
+ 
+if __name__ == "__main__":
+    book_appointment()
