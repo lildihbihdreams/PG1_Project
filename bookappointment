@@ -1,38 +1,54 @@
-from datetime import datetime, timedelta
- 
- 
-def book_appointment():
-    departments = ["GP", "Specialist"]
- 
-    while True:
-        department = input("Choose department (GP or Specialist): ").strip()
- 
-        if department not in departments:
-            print("Error: Invalid department. Please try again.")
-            continue
- 
-        while True:
-            date_input = input("Enter appointment date (DD/MM/YYYY): ").strip()
- 
-            try:
-                appointment_date = datetime.strptime(date_input, "%d/%m/%Y").date()
-            except ValueError:
-                print("Error: Invalid date format. Please use DD/MM/YYYY.")
-                continue
- 
-            today = datetime.today().date()
-            latest_date = today + timedelta(days=7)
- 
-            if appointment_date < today:
-                print("Error: Date cannot be in the past. Please try again.")
-            elif appointment_date > latest_date:
-                print("Error: Appointment must be within 7 days. Please try again.")
-            else:
-                print("Appointment booked successfully!")
-                print("Department:", department)
-                print("Appointment date:", date_input)
-                return
- 
- 
-if __name__ == "__main__":
-    book_appointment()
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Book Appointment</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; }
+        body { font-family: 'Poppins', Arial, sans-serif; margin: 0; background: linear-gradient(135deg, #1b2a4a 0%, #3468a8 100%);
+               min-height: 100vh; display: flex; align-items: center; justify-content: center; }
+        .card { background: white; width: 420px; border-radius: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.25); overflow: hidden; }
+        .header { background: linear-gradient(135deg, #1b2a4a, #3468a8); color: white; padding: 26px 30px; }
+        .header .icon { font-size: 28px; }
+        .header h1 { margin: 6px 0 0; font-size: 19px; }
+        .body { padding: 28px 30px; }
+        label { display: block; font-size: 13px; font-weight: 600; color: #4a5568; margin: 16px 0 6px; }
+        input, select { width: 100%; padding: 11px 12px; border: 1.5px solid #dbe1e8; border-radius: 8px; font-size: 14px; font-family: inherit; background: white; }
+        input:focus, select:focus { outline: none; border-color: #3468a8; }
+        button { margin-top: 24px; width: 100%; background: #3468a8; color: white; border: none;
+                 padding: 13px; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; font-family: inherit; }
+        button:hover { background: #285386; }
+        .error { background: #fdecea; color: #b3261e; padding: 12px 14px; border-radius: 8px; font-size: 13px; font-weight: 600; }
+        .success { background: #e8f0fb; color: #1a4a8a; padding: 16px; border-radius: 8px; font-size: 13px; line-height: 1.7; }
+        .success strong { display: block; font-size: 14px; margin-bottom: 4px; }
+        .back { display: inline-block; margin-top: 18px; color: #3468a8; text-decoration: none; font-size: 13px; font-weight: 600; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="header"><span class="icon">📅</span><h1>Book Appointment</h1></div>
+        <div class="body">
+            {% if error %}<p class="error">{{ error }}</p>{% endif %}
+            {% if success %}
+                <div class="success">
+                    <strong>✅ Appointment Booked Successfully!</strong>
+                    Department: {{ success.department }}<br>
+                    Date: {{ success.date }}
+                </div>
+            {% endif %}
+            <form method="POST">
+                <label>Department</label>
+                <select name="department">
+                    <option value="GP">GP</option>
+                    <option value="Specialist">Specialist</option>
+                </select>
+                <label>Date (DD/MM/YYYY)</label>
+                <input type="text" name="date" placeholder="e.g. 15/09/2026">
+                <button type="submit">Book Appointment</button>
+            </form>
+            <a class="back" href="/">← Back to Menu</a>
+        </div>
+    </div>
+</body>
+</html>
